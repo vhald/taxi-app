@@ -76,7 +76,7 @@ import Geocoder from 'react-native-geocoding';
 
 import {check, PERMISSIONS, request} from 'react-native-permissions';
 
-Geocoder.init('AIzaSyAZkGfsjFxon3edOfwsW5BQqxSXfXXlO7A');
+Geocoder.init('AIzaSyAtXBJn9EracKsQE26guO0eg3I-FnL8HuE');
 
 const App = () => {
   var list = null;
@@ -833,7 +833,7 @@ const App = () => {
                     getDefaultValue={() => ''}
                     query={{
                       // available options: https://developers.google.com/places/web-service/autocomplete
-                      key: 'AIzaSyDR8SLGQ-el0vcW4QghCirYJYpqhfhptgk',
+                      key: 'AIzaSyAtXBJn9EracKsQE26guO0eg3I-FnL8HuE',
                       language: 'en', // language of the results
                       //types: '(cities)' // default: 'geocode'
                       location: '-33.847927,150.651771',
@@ -1013,7 +1013,7 @@ const App = () => {
                     getDefaultValue={() => ''}
                     query={{
                       // available options: https://developers.google.com/places/web-service/autocomplete
-                      key: 'AIzaSyDR8SLGQ-el0vcW4QghCirYJYpqhfhptgk',
+                      key: 'AIzaSyAtXBJn9EracKsQE26guO0eg3I-FnL8HuE',
                       language: 'en', // language of the results
                       //types: '(cities)' // default: 'geocode'
                       location: '-33.847927,150.651771',

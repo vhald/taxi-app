@@ -33,7 +33,7 @@ const windowHeight = Dimensions.get('window').height;
 const ASPECT_RATIO = windowWidth / windowHeight;
 const LATITUDE_DELTA = 0.005;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
-Geocoder.init('AIzaSyBIHKw3MhPqgMCntOpmHX4lNJHd_lalD5w');
+Geocoder.init('AIzaSyAtXBJn9EracKsQE26guO0eg3I-FnL8HuE');
 
 const App = () => {
   const initialRegion = {
@@ -139,10 +139,11 @@ const App = () => {
           ',' +
           longitude +
           '&key=' +
-          'AIzaSyDR8SLGQ-el0vcW4QghCirYJYpqhfhptgk',
+          'AIzaSyAtXBJn9EracKsQE26guO0eg3I-FnL8HuE',
       )
         .then(response => response.json())
         .then(responseJson => {
+          console.log('responseJson', responseJson);
           if (responseJson.status === 'OK') {
             resolve(responseJson?.results?.[0]?.formatted_address);
           } else {
@@ -185,7 +186,7 @@ const App = () => {
     firestore()
       .collection('bookings')
       .add({
-        currentUser: auth().currentUser._user.uid,
+        // currentUser: auth().currentUser._user.uid,
         ...extraData,
         whereLocation,
         whereLocationLatLong,
@@ -385,7 +386,7 @@ const App = () => {
               );
             }}
             query={{
-              key: 'AIzaSyDR8SLGQ-el0vcW4QghCirYJYpqhfhptgk',
+              key: 'AIzaSyAtXBJn9EracKsQE26guO0eg3I-FnL8HuE',
               language: 'en', // language of the results
               location: '29.8360121,77.8829914',
               radius: 100,
