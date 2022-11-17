@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   TextInput,
+  Button,
 } from 'react-native';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import Geocoder from 'react-native-geocoding';
@@ -27,6 +28,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import Modal from 'react-native-modal';
 import Moment from 'moment';
 import toast from 'react-native-simple-toast';
+import DatePicker from 'react-native-date-picker';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -35,7 +37,7 @@ const LATITUDE_DELTA = 0.005;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 Geocoder.init('AIzaSyAtXBJn9EracKsQE26guO0eg3I-FnL8HuE');
 
-const App = () => {
+const App = ({navigation}) => {
   const initialRegion = {
     latitude: 30.2891458,
     longitude: 77.9940181,
@@ -63,6 +65,11 @@ const App = () => {
   });
 
   const [autoCompleteModal, set_autoCompleteModal] = useState(false);
+
+  const [date, setDate] = useState(new Date());
+  const [open, setOpen] = useState(false);
+
+  console.log('date', date);
 
   useEffect(() => {
     locationPermission();
@@ -183,10 +190,10 @@ const App = () => {
   };
 
   const submitForm = () => {
+    navigation.navigate('cart');
     firestore()
       .collection('bookings')
       .add({
-        // currentUser: auth().currentUser._user.uid,
         ...extraData,
         whereLocation,
         whereLocationLatLong,
@@ -195,7 +202,7 @@ const App = () => {
         status: 'pending',
       })
       .then(res => {
-        toast.show('Booking saved');
+        toast.LONG(`Booking saved... ${'\n'} Redirecting to payment page`);
         //a page ... user will show up
       })
       .catch(error => {
@@ -453,16 +460,31 @@ const App = () => {
               }}
             />
 
+            <Button title="Open" onPress={() => setOpen(true)} />
+            <DatePicker
+              modal
+              open={open}
+              date={date}
+              onConfirm={date => {
+                setOpen(false);
+                setDate(date);
+              }}
+              onCancel={() => {
+                setOpen(false);
+              }}
+            />
             <TextInput
-              editable={false}
-              value={String(extraData.travelDateinHuman).toString()}
               style={{
                 color: 'black',
                 marginTop: 20,
                 borderRadius: 4,
                 borderWidth: 1,
                 borderColor: 'grey',
+                height: 40,
+                justifyContent: 'center',
+                paddingLeft: 10,
               }}
+              value={date.toString()}
             />
 
             <TextInput
@@ -471,6 +493,7 @@ const App = () => {
               onChangeText={numberofpassengers =>
                 set_extraData(prev => ({...prev, numberofpassengers}))
               }
+              placeholder="Number of Passengers"
               style={{
                 color: 'black',
                 marginTop: 20,
@@ -478,6 +501,7 @@ const App = () => {
                 borderWidth: 1,
                 borderColor: 'grey',
               }}
+              maxLength={2}
             />
 
             <TouchableOpacity
@@ -492,25 +516,9 @@ const App = () => {
                 alignItems: 'center',
               }}
               onPress={submitForm}>
-              <Text>Submit</Text>
+              <Text style={{color: 'white'}}>Submit</Text>
             </TouchableOpacity>
-
-            {/*
-                  <DateTimePicker
-                  testID="dateTimePicker"
-                  maximumDate={Moment().add(3, 'months').toDate()}
-                  minimumDate={new Date()}
-                  value={extraData.travelDateinHuman}
-                  is24Hour
-                  onChange={(date) => {setState(prev => ({travelDateinHuman: date})) }}
-                />
-                */}
           </View>
-          {/* travel date */}
-          {/* number of passengers */}
-          {/* phone */}
-          {/* name */}
-          {/* submit */}
         </View>
       </Modal>
     </View>

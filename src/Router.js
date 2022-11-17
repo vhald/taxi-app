@@ -1,10 +1,6 @@
 import React, {useRef, useEffect, useState} from 'react';
-import {View, Alert, Platform} from 'react-native';
+import {View, Text, Alert, Platform} from 'react-native';
 
-// import Create from './Create';
-// import Read from './Read';
-// import Edit from './Edit';
-// import Detail from './Detail';
 // import Login from './Login';
 
 import Map from './Map';
@@ -12,9 +8,10 @@ import Booking from './Booking';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import auth from '@react-native-firebase/auth';
-import messaging from '@react-native-firebase/messaging';
-import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
+// import auth from '@react-native-firebase/auth';
+// import messaging from '@react-native-firebase/messaging';
+// import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
+import Cart from './PaymentPage';
 
 // import {
 //   GoogleSignin,
@@ -166,20 +163,24 @@ const App = props => {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="map">
-        <Stack.Screen
+        {/* <Stack.Screen
           name="booking"
           options={{headerShown: false}}
           component={Booking}
-        />
+        /> */}
         <Stack.Screen
           name="map"
           options={{headerShown: false}}
           component={Map}
         />
+        <Stack.Screen
+          name="cart"
+          options={{headerShown: false}}
+          component={Cart}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
 };
-// ends here
 
 export default App;

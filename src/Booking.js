@@ -91,7 +91,6 @@ const App = () => {
     tripfrom: '',
     tripto: '',
     thedate: Moment().format('DD-MM-YYYY'),
-    //maxdate: Moment().add('years',1).format("DD-MM-YYYY"),
     maxdate: Moment().add(1, 'years').format('DD-MM-YYYY'),
     thetime: Moment().format('hh:mm A'),
     triptype: 'One Way Trip',
@@ -1015,7 +1014,7 @@ const App = () => {
                       // available options: https://developers.google.com/places/web-service/autocomplete
                       key: 'AIzaSyAtXBJn9EracKsQE26guO0eg3I-FnL8HuE',
                       language: 'en', // language of the results
-                      //types: '(cities)' // default: 'geocode'
+                      // types: '(cities)' // default: 'geocode'
                       location: '-33.847927,150.651771',
                       radius: 100000,
                       components: 'country:au',
@@ -1461,16 +1460,3 @@ const styles = StyleSheet.create({
     height: 34,
   },
 });
-
-// import { View, Text } from 'react-native'
-// import React from 'react'
-
-// const Booking = () => {
-//   return (
-//     <View>
-//       <Text>Booking</Text>
-//     </View>
-//   )
-// }
-
-// export default Booking
