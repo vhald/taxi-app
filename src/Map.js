@@ -21,6 +21,7 @@ import Geolocation from 'react-native-geolocation-service';
 
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
+import PolyLine from '@mapbox/polyline';
 
 //import DatePicker from 'react-native-datepicker'
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -43,6 +44,7 @@ const App = ({navigation}) => {
     longitude: 77.9940181,
     latitudeDelta: LATITUDE_DELTA,
     longitudeDelta: LONGITUDE_DELTA,
+    pointCoord: [],
   };
   const [coordinates, set_coordinates] = useState(initialRegion);
   const [grantedPermission, set_grantedPermission] = useState(false); //true , false
@@ -128,13 +130,6 @@ const App = ({navigation}) => {
         },
         {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
       );
-
-      // getAddressFromCoordinates(coordinates)
-      // .then(res => {
-      //     console.log('that is my current location',res)
-      // }).catch(err => {
-      //     console.log('err',err)
-      // })
     }
   }, [grantedPermission]);
 
@@ -210,6 +205,23 @@ const App = ({navigation}) => {
       });
   };
 
+  // this is the polyLine method | we have another library as well
+  // https://www.npmjs.com/package/react-native-maps-directions
+  const getDirection = async () => {
+    try {
+      const response = await fetch(
+        'https://maps.googleapis.com/maps/api/directions/json?origin=Disneyland&destination=Universal+Studios+Hollywood&key=AIzaSyAtXBJn9EracKsQE26guO0eg3I-FnL8HuE',
+      );
+      const json = await response.json();
+      const points = PolyLine.decode(json.routes[0].overview_polyline.points);
+      const pointCoord = points.map(point => {
+        return {latitude: point[0], longitude: point[1]};
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
       {currentLocation == null ? (
@@ -220,7 +232,8 @@ const App = ({navigation}) => {
             provider={PROVIDER_GOOGLE}
             region={coordinates}
             onRegionChangeComplete={changedLocation}
-            style={{width: windowWidth, height: windowHeight}}></MapView>
+            style={{width: windowWidth, height: windowHeight}}
+          />
 
           <View
             style={{
@@ -436,7 +449,7 @@ const App = ({navigation}) => {
             <TextInput
               value={extraData.name}
               placeholderTextColor={'grey'}
-              placeholder="Enter your name*"
+              placeholder="Enter your name *"
               onChangeText={name => set_extraData(prev => ({...prev, name}))}
               style={{
                 color: 'black',
@@ -449,7 +462,7 @@ const App = ({navigation}) => {
             <TextInput
               value={extraData.email}
               placeholderTextColor={'grey'}
-              placeholder="Enter your email*"
+              placeholder="Enter your email *"
               onChangeText={email => set_extraData(prev => ({...prev, email}))}
               style={{
                 color: 'black',
@@ -493,7 +506,8 @@ const App = ({navigation}) => {
               onChangeText={numberofpassengers =>
                 set_extraData(prev => ({...prev, numberofpassengers}))
               }
-              placeholder="Number of Passengers"
+              placeholder="Number of Passengers *"
+              placeholderTextColor={'red'}
               style={{
                 color: 'black',
                 marginTop: 20,

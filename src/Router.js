@@ -35,7 +35,7 @@ import Cart from './PaymentPage';
 const Stack = createNativeStackNavigator();
 
 //start from here
-const App = props => {
+const Router = props => {
   // const [state, setstate] = useState({loading: true, currentUser: null});
 
   // useEffect(() => {
@@ -183,4 +183,4 @@ const App = props => {
   );
 };
 
-export default App;
+export default Router;
